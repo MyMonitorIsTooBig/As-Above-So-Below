@@ -65,31 +65,32 @@ public class PlayerMovement : MonoBehaviour
         
         if (_canMove)
         {
-
-            
+           
 
             // move player's rigidbody position based on current read input value using *new* input system
 
             var moveValue = _moveAction.ReadValue<Vector2>();
 
 
-            //var dir = Vector3.SmoothDamp(transform.position, transform.position + (Vector3)moveValue * _stats.speed.value, ref _vel, _smoothing);
-            var dir = transform.position + (Vector3)moveValue * _stats.speed.value;
-            dir = Vector2.Lerp(transform.position, dir, _smoothing);
+            var dir = Vector3.SmoothDamp(transform.position, transform.position + (Vector3)moveValue * _stats.speed.value, ref _vel, _smoothing);
 
-            
-            
+            //dir = transform.position + (Vector3)moveValue * _stats.speed.value;
+
+
+
             _rb.MovePosition(dir);
 
             Vector3 cam = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
             direction = Vector3.SmoothDamp(direction, (cam - transform.position).normalized, ref _atkvel, _atksmoothing);
 
+
         }
-        
+
 
 
     }
+
 
 
     void disableMove(bool enable)

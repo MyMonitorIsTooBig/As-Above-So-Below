@@ -59,11 +59,10 @@ public class CameraManager : MonoBehaviour
 
             transform.position = new Vector3(Mathf.Clamp(smoothPos.x, xClamps.x, xClamps.y), Mathf.Clamp(smoothPos.y, yClamps.x, yClamps.y), -10);
 
+            
 
             return;
             
-
-
         }
 
         // if the camera should follow a different point
