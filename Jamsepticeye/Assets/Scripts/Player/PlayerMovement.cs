@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-
+    Vector2 dir2 = Vector2.zero;
 
     private void Awake()
     {
@@ -72,13 +72,15 @@ public class PlayerMovement : MonoBehaviour
             var moveValue = _moveAction.ReadValue<Vector2>();
 
 
-            var dir = Vector3.SmoothDamp(transform.position, transform.position + (Vector3)moveValue * _stats.speed.value, ref _vel, _smoothing);
+            //var dir = Vector3.SmoothDamp(transform.position, transform.position + (Vector3)moveValue * _stats.speed.value, ref _vel, _smoothing);
 
             //dir = transform.position + (Vector3)moveValue * _stats.speed.value;
+            //_rb.MovePosition(dir);
 
+            dir2 = Vector2.Lerp(dir2, moveValue, _smoothing);
 
-
-            _rb.MovePosition(dir);
+            
+            _rb.linearVelocity = dir2 * _stats.speed.value;
 
             Vector3 cam = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 

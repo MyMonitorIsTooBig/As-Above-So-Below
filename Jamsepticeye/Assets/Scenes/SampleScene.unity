@@ -729,12 +729,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17f97f25ae4d74c44ba8cd09eb5afbbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 37923284}
+  _player: {fileID: 567077829}
   smoothing: 0.1
   _followPlayer: 1
   xClamps: {x: -200, y: 200}
@@ -748,7 +748,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
@@ -862,7 +862,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &1326473067
+--- !u!43 &1795668577
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1211,7 +1211,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 392787553603481363, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
       propertyPath: _smoothing
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1073237651565138765, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
@@ -1295,7 +1295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8535898588954822966, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
       propertyPath: speed.value
-      value: 2.5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8794014301061543460, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
       propertyPath: m_Name
