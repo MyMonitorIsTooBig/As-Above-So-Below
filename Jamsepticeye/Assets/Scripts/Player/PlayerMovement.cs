@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     InputAction _moveAction;
+    InputAction _jumpAction;
     InputAction _interactAction;
     InputAction _attackAction;
 
@@ -32,9 +33,22 @@ public class PlayerMovement : MonoBehaviour
 
     bool _autoAttack = true;
 
+    [SerializeField]
+    bool _bounce = false;
+
+    [SerializeField]
+    bool _grounded = false;
 
 
     Vector2 dir2 = Vector2.zero;
+
+    [SerializeField] Vector2 _xMomentum = Vector2.zero;
+
+    [SerializeField]
+    Collider2D _collider;
+
+    [SerializeField]
+    LayerMask _groundLayer;
 
     private void Awake()
     {
@@ -42,12 +56,13 @@ public class PlayerMovement : MonoBehaviour
         _interactAction = InputSystem.actions.FindAction("Interact");
         _moveAction = InputSystem.actions.FindAction("Move");
         _attackAction = InputSystem.actions.FindAction("Attack");
+        _jumpAction = InputSystem.actions.FindAction("Jump");
 
         _rb = GetComponent<Rigidbody2D>();
         _stats = GetComponent<PlayerStats>();
         _attack = GetComponentInChildren<Attack>();
 
-
+        _jumpAction.started += Jump;
     }
 
     private void OnEnable()
@@ -57,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        
+        _jumpAction.started -= Jump;
     }
 
     void FixedUpdate()
@@ -66,40 +81,50 @@ public class PlayerMovement : MonoBehaviour
         if (_canMove)
         {
            
-
-            // move player's rigidbody position based on current read input value using *new* input system
-
             var moveValue = _moveAction.ReadValue<Vector2>();
-
-
-            //var dir = Vector3.SmoothDamp(transform.position, transform.position + (Vector3)moveValue * _stats.speed.value, ref _vel, _smoothing);
-
-            //dir = transform.position + (Vector3)moveValue * _stats.speed.value;
-            //_rb.MovePosition(dir);
+            moveValue.y = 0;
 
             dir2 = Vector2.Lerp(dir2, moveValue, _smoothing);
 
-            
-            _rb.linearVelocity = dir2 * _stats.speed.value;
+            if (!_grounded) dir2 = dir2 * 0.85f;
+
+            _rb.AddForce(dir2 * _stats.speed.value, ForceMode2D.Impulse);
 
             Vector3 cam = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
             direction = Vector3.SmoothDamp(direction, (cam - transform.position).normalized, ref _atkvel, _atksmoothing);
 
-
+            if(_rb.linearVelocity != Vector2.zero) _xMomentum = _rb.linearVelocity;
         }
 
 
 
     }
 
-
+    void Jump(InputAction.CallbackContext context)
+    {
+        if (_collider.IsTouchingLayers(_groundLayer))
+        {
+            _rb.AddForce(transform.up * _stats.jumpHeight.value, ForceMode2D.Impulse);
+            _grounded = false;
+        }
+    }
 
     void disableMove(bool enable)
     {
         _canMove = !enable;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
 
+        if (collision.gameObject.layer == 3)
+        {
+            _grounded = true;
+            if(_bounce) _rb.AddForce(-_xMomentum + _rb.linearVelocity, ForceMode2D.Impulse);
+            
+        }
+
+    }
 
 }

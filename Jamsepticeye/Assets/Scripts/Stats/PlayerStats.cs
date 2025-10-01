@@ -9,10 +9,12 @@ public class PlayerStats : MonoBehaviour, IDamageable
     //every stat
     [Header("Every Stat, Set Up In Editor")]
     public statPair speed;
+    public statPair jumpHeight;
     public statPair damage;
     public statPair atkSpeed;
     public statPair money;
     public statPair moneyOnKill;
+    
 
     [Header("Don't worry about this!")]
     public List<statPair> stats;
@@ -34,7 +36,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private void Awake()
     {
         //populate list with all stats 
-        stats = new List<statPair> { speed, damage, atkSpeed, money, moneyOnKill };
+        stats = new List<statPair> { speed, jumpHeight, damage, atkSpeed, money, moneyOnKill };
         onStatUpdate?.Invoke();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -131,7 +133,7 @@ public class statPair
 //custom enum used in statPair combinations
 public enum statName
 {
-    SPEED, DAMAGE, ATTACKSPEED, MONEY, MONEYONKILL, 
+    SPEED, JUMP, DAMAGE, ATTACKSPEED, MONEY, MONEYONKILL, 
 }
 
 
