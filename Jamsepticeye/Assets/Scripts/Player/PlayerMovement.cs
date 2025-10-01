@@ -1,4 +1,5 @@
-using System.Collections;
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,35 +7,26 @@ public class PlayerMovement : MonoBehaviour
 {
     InputAction _moveAction;
     InputAction _jumpAction;
-    InputAction _interactAction;
-    InputAction _attackAction;
+    InputAction _dieAction;
 
     private Rigidbody2D _rb;
 
     PlayerStats _stats;
 
     Vector3 _vel = Vector3.zero;
-    Vector3 _atkvel = Vector3.zero;
 
     [SerializeField]
     float _smoothing = 0.3f;
 
-    [SerializeField]
-    float _atksmoothing = 0.0f;
 
     [SerializeField] bool _canMove = true;
     public bool CanMove {  get { return _canMove; } set { _canMove = value; } }
 
-    Attack _attack;
 
     Vector2 direction;
 
     public Vector2 Direction { get { return direction; } }
 
-    bool _autoAttack = true;
-
-    [SerializeField]
-    bool _bounce = false;
 
     [SerializeField]
     bool _grounded = false;
@@ -50,19 +42,23 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     LayerMask _groundLayer;
 
+    [SerializeField]
+    GameObject _corpsePrefab;
+
+    List<Collider2D> _groundColliders = new List<Collider2D>();
+
     private void Awake()
     {
         //initialize player variables
-        _interactAction = InputSystem.actions.FindAction("Interact");
         _moveAction = InputSystem.actions.FindAction("Move");
-        _attackAction = InputSystem.actions.FindAction("Attack");
         _jumpAction = InputSystem.actions.FindAction("Jump");
+        _dieAction = InputSystem.actions.FindAction("Die");
 
         _rb = GetComponent<Rigidbody2D>();
         _stats = GetComponent<PlayerStats>();
-        _attack = GetComponentInChildren<Attack>();
 
         _jumpAction.started += Jump;
+        _dieAction.started += Die;
     }
 
     private void OnEnable()
@@ -73,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         _jumpAction.started -= Jump;
+        _dieAction.started -= Die;
     }
 
     void FixedUpdate()
@@ -92,9 +89,7 @@ public class PlayerMovement : MonoBehaviour
 
             Vector3 cam = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
-            direction = Vector3.SmoothDamp(direction, (cam - transform.position).normalized, ref _atkvel, _atksmoothing);
 
-            if(_rb.linearVelocity != Vector2.zero) _xMomentum = _rb.linearVelocity;
         }
 
 
@@ -103,11 +98,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump(InputAction.CallbackContext context)
     {
-        if (_collider.IsTouchingLayers(_groundLayer))
+        if (_grounded)
         {
             _rb.AddForce(transform.up * _stats.jumpHeight.value, ForceMode2D.Impulse);
             _grounded = false;
         }
+    }
+
+    void Die(InputAction.CallbackContext context)
+    {
+        Instantiate(_corpsePrefab, transform.position, Quaternion.identity);
     }
 
     void disableMove(bool enable)
@@ -118,13 +118,31 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.gameObject.layer == 3)
+        foreach (ContactPoint2D contact in collision.contacts)
         {
-            _grounded = true;
-            if(_bounce) _rb.AddForce(-_xMomentum + _rb.linearVelocity, ForceMode2D.Impulse);
-            
-        }
 
+            float ownBottomY = _collider.bounds.min.y;
+
+            float tolerance = 0.1f; 
+
+            if (Mathf.Abs(contact.point.y - ownBottomY) < tolerance)
+            {
+                _grounded = true;
+                _groundColliders.Add(collision.collider);
+                break; 
+            }
+        }
     }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+
+        if (_groundColliders.Contains(collision.collider))
+        {
+            _groundColliders.Remove(collision.collider);
+            if (_groundColliders.Count == 0) _grounded = false;
+        }
+    }
+
 
 }
