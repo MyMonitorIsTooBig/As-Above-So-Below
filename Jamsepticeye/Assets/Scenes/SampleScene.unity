@@ -904,7 +904,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &767404697
+--- !u!61 &785366620 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 1073237651565138765, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
+  m_PrefabInstance: {fileID: 1987496446}
+  m_PrefabAsset: {fileID: 0}
+--- !u!43 &916369001
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1069,12 +1074,34 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!61 &785366620 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 1073237651565138765, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
+--- !u!1 &1053517374 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8794014301061543460, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
   m_PrefabInstance: {fileID: 1987496446}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &1327404227
+--- !u!114 &1053517375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053517374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c750264d1a9fa2e43a454a09da41529f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewindDuration: 3
+  recordInterval: 0.01
+  rewindSpeed: 100
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  collisionCheckRadius: 0.2
+  rewindParticlePrefab: {fileID: 5931757697795572668, guid: b85d0b598c5add8488f47a1549374241, type: 3}
+  normalSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  rewindSprite: {fileID: 2747690628134850419, guid: a9716c16a44a94eed9b5c90fbf4d9bdd, type: 3}
+--- !u!43 &1190400865
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1638,7 +1665,7 @@ PrefabInstance:
     - target: {fileID: 3117278777478909595, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
       propertyPath: m_ShadowMesh.m_Mesh
       value: 
-      objectReference: {fileID: 1327404227}
+      objectReference: {fileID: 916369001}
     - target: {fileID: 3705081116563905021, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1659,6 +1686,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+    - target: {fileID: 5969014014054237843, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
+      propertyPath: m_Color.b
+      value: 0.93685436
+      objectReference: {fileID: 0}
+    - target: {fileID: 5969014014054237843, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9622642
+      objectReference: {fileID: 0}
+    - target: {fileID: 5969014014054237843, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5969014014054237843, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5969014014054237843, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -1732,7 +1775,10 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 4469503828565052295, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8794014301061543460, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1053517375}
   m_SourcePrefab: {fileID: 100100000, guid: e1012f613b5f803418a268c9f3ae03e9, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
