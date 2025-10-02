@@ -57,8 +57,8 @@ public class PlayerMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _stats = GetComponent<PlayerStats>();
 
-        _jumpAction.started += Jump;
-        _dieAction.started += Die;
+        _jumpAction.started += ctx => Jump();
+        _dieAction.started += ctx => Die();
     }
 
     private void OnEnable()
@@ -68,8 +68,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        _jumpAction.started -= Jump;
-        _dieAction.started -= Die;
+        _jumpAction.started -= ctx => Jump();
+        _dieAction.started -= ctx => Die();
     }
 
     void FixedUpdate()
@@ -96,18 +96,19 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    void Jump(InputAction.CallbackContext context)
+    void Jump()
     {
-        if (_grounded)
+        if (_collider.IsTouchingLayers(_groundLayer))
         {
             _rb.AddForce(transform.up * _stats.jumpHeight.value, ForceMode2D.Impulse);
             _grounded = false;
         }
     }
 
-    void Die(InputAction.CallbackContext context)
+    void Die()
     {
-        Instantiate(_corpsePrefab, transform.position, Quaternion.identity);
+        Death _corpse = Instantiate(_corpsePrefab, transform.position, Quaternion.identity).GetComponent<Death>();
+        //_corpse.CurrentUpgrade = Upgrade.LongLasting;
     }
 
     void disableMove(bool enable)

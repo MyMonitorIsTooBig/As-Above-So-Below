@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 998186284258769912}
   - component: {fileID: 6855075870532586381}
   - component: {fileID: 7232467218245432085}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Corpse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 30
   m_LinearDamping: 1
   m_AngularDamping: 1
   m_GravityScale: 1
@@ -116,7 +116,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &6855075870532586381
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -176,4 +176,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 998186284258769912}
-  _currentUpgrade: 4
+  _health: 3
+  _timeUntilDamage: 1
+  _stepDamage: 1
+  _projectileDamage: 0.5
+  _lastingMultipler: 2
+  _currentUpgrade: 2

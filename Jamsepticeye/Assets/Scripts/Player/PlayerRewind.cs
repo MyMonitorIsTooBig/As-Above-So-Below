@@ -93,7 +93,7 @@ public class PlayerRewind : MonoBehaviour
     spriteRenderer.sprite = rewindSprite;
     isRewinding = true; // this makes sure that the bool is flipped and its not gonna be stuck in a position setting loop 
     rb.linearVelocity = Vector2.zero;
-    rb.isKinematic = true;
+        rb.bodyType = RigidbodyType2D.Kinematic;
     col.enabled = false;
 
     GameObject particle = null; // for now it will just Instantiate but if we have more time it would be nice to make a particle for this 
