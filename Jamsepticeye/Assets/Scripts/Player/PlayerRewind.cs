@@ -25,7 +25,10 @@ public class PlayerRewind : MonoBehaviour
     
     [Header("Sprite Stuff")]
     [SerializeField] private Sprite normalSprite;     
-    [SerializeField] private Sprite rewindSprite;    
+    [SerializeField] private Sprite rewindSprite;
+
+    [Header("Corpse Prefab")]
+    [SerializeField] GameObject _corpse;
     
     private SpriteRenderer spriteRenderer;
     private List<PositionRecord> positionHistory = new List<PositionRecord>();
@@ -85,7 +88,12 @@ public class PlayerRewind : MonoBehaviour
     public void OnRewindPressed()
     {
         if (!isRewinding)
+        {
             StartCoroutine(Rewind());
+            Death corpse = Instantiate(_corpse, transform.position, Quaternion.identity).GetComponent<Death>();
+            //corpse.CurrentUpgrade = Upgrade.ZeroG;
+        }
+            
     }
 
     System.Collections.IEnumerator Rewind()

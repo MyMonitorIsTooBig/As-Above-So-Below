@@ -51,8 +51,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     LayerMask _groundLayer;
 
-    [SerializeField]
-    GameObject _corpsePrefab;
 
     List<Collider2D> _groundColliders = new List<Collider2D>();
 
@@ -118,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 1f), 0, Vector2.down, 1, _groundLayer);
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.25f), 0, Vector2.down, 1, _groundLayer);
 
 
         if (_collider.IsTouchingLayers(_groundLayer) && hit.collider != null)
@@ -130,9 +128,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Die()
     {
-        Death _corpse = Instantiate(_corpsePrefab, transform.position, Quaternion.identity).GetComponent<Death>();
+        
         _rewind.OnRewindPressed();
-        //_corpse.CurrentUpgrade = Upgrade.LongLasting;
     }
 
     void disableMove(bool enable)
