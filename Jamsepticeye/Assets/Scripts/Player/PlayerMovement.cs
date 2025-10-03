@@ -92,7 +92,26 @@ public class PlayerMovement : MonoBehaviour
 
             if (!_grounded) dir2 = dir2 * 0.85f;
 
-            _rb.AddForce(dir2 * _stats.speed.value, ForceMode2D.Impulse);
+
+            RaycastHit2D slopeHit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.5f), 0, Vector2.down, 1, _groundLayer);
+
+            Vector2 slope = Vector2.one;
+
+            if (slopeHit.collider != null)
+            {
+                float angle = Mathf.Atan2(slopeHit.normal.x, slopeHit.normal.y);
+                
+                if(angle != 0)
+                {
+                    angle = Mathf.Deg2Rad * angle;
+                    slope = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+
+                    _rb.AddForce(dir2 * slope * _stats.speed.value, ForceMode2D.Impulse);
+
+                }
+            }
+
+            _rb.AddForce(dir2 * slope * _stats.speed.value, ForceMode2D.Impulse);
 
             Vector3 cam = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
@@ -116,10 +135,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.25f), 0, Vector2.down, 1, _groundLayer);
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.5f), 0, Vector2.down, 1, _groundLayer);
 
 
-        if (_collider.IsTouchingLayers(_groundLayer) && hit.collider != null)
+        if (_collider.IsTouchingLayers(_groundLayer) && hit.collider != null && _grounded)
         {
             _rb.AddForce(transform.up * _stats.jumpHeight.value, ForceMode2D.Impulse);
             _grounded = false;

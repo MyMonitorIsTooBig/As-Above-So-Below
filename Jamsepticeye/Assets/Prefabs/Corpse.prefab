@@ -181,4 +181,4 @@ MonoBehaviour:
   _stepDamage: 1
   _projectileDamage: 0.5
   _lastingMultipler: 2
-  _currentUpgrade: 2
+  _currentUpgrade: 4
