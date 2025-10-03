@@ -1,7 +1,9 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.UI.Image;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -31,6 +33,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     bool _grounded = false;
 
+    bool _inWater = false;
+
+    [SerializeField] float _timeUntilWateryGrave = 1.0f;
+    float _currentWateryGraveTime = 0.0f;
+
 
     Vector2 dir2 = Vector2.zero;
 
@@ -38,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     Collider2D _collider;
+    [SerializeField]
+    PlayerRewind _rewind;
 
     [SerializeField]
     LayerMask _groundLayer;
@@ -92,13 +101,27 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-
+        if (_inWater)
+        {
+            if(_currentWateryGraveTime < _timeUntilWateryGrave)
+            {
+                _currentWateryGraveTime += Time.deltaTime;
+            }
+            else
+            {
+                Die();
+                _currentWateryGraveTime = 0.0f;
+            }
+        }
 
     }
 
     void Jump()
     {
-        if (_collider.IsTouchingLayers(_groundLayer))
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 1f), 0, Vector2.down, 1, _groundLayer);
+
+
+        if (_collider.IsTouchingLayers(_groundLayer) && hit.collider != null)
         {
             _rb.AddForce(transform.up * _stats.jumpHeight.value, ForceMode2D.Impulse);
             _grounded = false;
@@ -108,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
     void Die()
     {
         Death _corpse = Instantiate(_corpsePrefab, transform.position, Quaternion.identity).GetComponent<Death>();
+        _rewind.OnRewindPressed();
         //_corpse.CurrentUpgrade = Upgrade.LongLasting;
     }
 
@@ -133,6 +157,19 @@ public class PlayerMovement : MonoBehaviour
                 break; 
             }
         }
+
+
+        switch (collision.collider.tag)
+        {
+            case "Spike":
+                Die();
+                break;
+
+            case "Projectile":
+                Die();
+                break;
+        }
+        
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -142,6 +179,22 @@ public class PlayerMovement : MonoBehaviour
         {
             _groundColliders.Remove(collision.collider);
             if (_groundColliders.Count == 0) _grounded = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == 4)
+        {
+            _inWater = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 4)
+        {
+            _inWater = false;
         }
     }
 

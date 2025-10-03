@@ -82,7 +82,7 @@ public class PlayerRewind : MonoBehaviour
         }
     }
 
-    private void OnRewindPressed()
+    public void OnRewindPressed()
     {
         if (!isRewinding)
             StartCoroutine(Rewind());
