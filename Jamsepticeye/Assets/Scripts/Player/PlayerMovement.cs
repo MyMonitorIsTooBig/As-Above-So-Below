@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static UnityEngine.UI.Image;
 
 public class PlayerMovement : MonoBehaviour
@@ -10,6 +11,10 @@ public class PlayerMovement : MonoBehaviour
     InputAction _moveAction;
     InputAction _jumpAction;
     InputAction _dieAction;
+
+    System.Action<InputAction.CallbackContext> _jumpCallback;
+    System.Action<InputAction.CallbackContext> _dieCallback;
+    System.Action<InputAction.CallbackContext> _moveCallback;
 
     private Rigidbody2D _rb;
 
@@ -64,10 +69,12 @@ public class PlayerMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _stats = GetComponent<PlayerStats>();
 
-        _jumpAction.started += ctx => Jump();
-        _dieAction.started += ctx => Die();
-    }
+        _jumpCallback = ctx => Jump();
+        _dieCallback = ctx => Die();
 
+        _jumpAction.started += _jumpCallback;
+        _dieAction.started += _dieCallback;
+    }
     private void OnEnable()
     {
         
@@ -75,8 +82,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        _jumpAction.started -= ctx => Jump();
-        _dieAction.started -= ctx => Die();
+        _jumpAction.started -= _jumpCallback;
+        _dieAction.started -= _dieCallback;
     }
 
     void FixedUpdate()
@@ -135,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.5f), 0, Vector2.down, 1, _groundLayer);
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.99f, 0.5f), 0, Vector2.down, 1, _groundLayer);
 
 
         if (_collider.IsTouchingLayers(_groundLayer) && hit.collider != null && _grounded)
@@ -147,8 +154,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Die()
     {
-        
-        _rewind.OnRewindPressed();
+        if (CardManager.Instance.HasBaseCard)
+        {
+            _rewind.OnRewindPressed();
+        }
     }
 
     void disableMove(bool enable)

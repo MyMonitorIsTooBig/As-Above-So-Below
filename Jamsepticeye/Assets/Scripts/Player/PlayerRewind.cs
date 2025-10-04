@@ -139,6 +139,13 @@ public class PlayerRewind : MonoBehaviour
 
             //corpse
             Death corpse = Instantiate(_corpse, transform.position, Quaternion.identity).GetComponent<Death>();
+            
+            if(CardManager.Instance != null)
+            {
+                corpse.CurrentUpgrade = CardManager.Instance.SelectedCard;
+            }
+            
+            
 
             // reset survival tracker
             hasSurvivedRewind = false;
@@ -260,7 +267,7 @@ public class PlayerRewind : MonoBehaviour
 
         // unfuck everything
         if (particle != null) Destroy(particle);
-        rb.isKinematic = false;
+        rb.bodyType = RigidbodyType2D.Dynamic;
         col.enabled = true;
         isRewinding = false;
         spriteRenderer.sprite = normalSprite;

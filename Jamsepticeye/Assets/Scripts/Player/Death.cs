@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ public class Death : MonoBehaviour
     public Upgrade CurrentUpgrade { get { return _currentUpgrade; } set { _currentUpgrade = value; } }
 
     // initializes corpse
-    private void OnEnable()
+    private void Start()
     {
         CorpseManager.Instance.AddToList(this);
 
@@ -144,7 +145,8 @@ public class Death : MonoBehaviour
     }
 }
 
+[Serializable]
 public enum Upgrade
 {
-    LongLasting, ZeroG, Floating, LeadLined, None,
+    None, LongLasting, Floating, LeadLined, ZeroG,
 }
