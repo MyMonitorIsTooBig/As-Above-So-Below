@@ -95,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
             var moveValue = _moveAction.ReadValue<Vector2>();
             moveValue.y = 0;
 
+
             dir2 = Vector2.Lerp(dir2, moveValue, _smoothing);
 
             //if (!_grounded) dir2 = dir2 * 0.85f;
