@@ -271,6 +271,9 @@ public class PlayerRewind : MonoBehaviour
         col.enabled = true;
         isRewinding = false;
         spriteRenderer.sprite = normalSprite;
+        positionHistory.Clear();
+        hasSurvivedRewind = false;
+        lastRewindTime = Time.time;
     }
 
     /*
