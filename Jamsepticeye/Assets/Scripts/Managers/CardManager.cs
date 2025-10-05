@@ -57,14 +57,21 @@ public class CardManager : MonoBehaviour
 
         if (!_hasBaseCard) _hasBaseCard = true;
 
+
+        if (cards[index]._hasCard)
+        {
+            _selectedCard = (Upgrade)index;
+            return;
+        }
+        /*
         foreach (Cards _card in cards)
         {
             if(_card._name == (Upgrade)index && _card._hasCard)
             {
-                _selectedCard = (Upgrade)index;
-                return;
+                
             }
         }
+        */
         
     }
 }
