@@ -55,6 +55,9 @@ public class PlayerRewind : MonoBehaviour
     private float lastRewindTime;
     private bool hasSurvivedRewind = false;
 
+    // Water check
+    private bool _inWater = false;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -100,17 +103,25 @@ public class PlayerRewind : MonoBehaviour
         // Safe zone check: survived 1 second after rewind
         if (!isRewinding && !hasSurvivedRewind && Time.time - lastRewindTime >= 1f)
         {
-            safeZonePosition = transform.position; // store safe zone
-            hasSurvivedRewind = true;
-            Debug.Log("Safe zone set at: " + safeZonePosition.Value);
-
-            // spawn or move safe zone marker
-            if (safeZonePrefab != null)
+            // only set safe zone if not in water
+            if (!_inWater)
             {
-                if (safeZoneInstance == null)
-                    safeZoneInstance = Instantiate(safeZonePrefab, safeZonePosition.Value, Quaternion.identity);
-                else
-                    safeZoneInstance.transform.position = safeZonePosition.Value;
+                safeZonePosition = transform.position; // store safe zone
+                hasSurvivedRewind = true;
+                Debug.Log("Safe zone set at: " + safeZonePosition.Value);
+
+                // spawn or move safe zone marker
+                if (safeZonePrefab != null)
+                {
+                    if (safeZoneInstance == null)
+                        safeZoneInstance = Instantiate(safeZonePrefab, safeZonePosition.Value, Quaternion.identity);
+                    else
+                        safeZoneInstance.transform.position = safeZonePosition.Value;
+                }
+            }
+            else
+            {
+                Debug.Log("Safe zone NOT set: player is in water");
             }
         }
     }
@@ -139,13 +150,14 @@ public class PlayerRewind : MonoBehaviour
 
             //corpse
             Death corpse = Instantiate(_corpse, transform.position, Quaternion.identity).GetComponent<Death>();
-            
+
             if(CardManager.Instance != null)
             {
                 corpse.CurrentUpgrade = CardManager.Instance.SelectedCard;
             }
-            
-            
+
+            // clear history on death
+            positionHistory.Clear();
 
             // reset survival tracker
             hasSurvivedRewind = false;
@@ -283,4 +295,23 @@ public class PlayerRewind : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, collisionCheckRadius);
     }
     */
+
+    // --- Water trigger detection ---
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("In Water");
+        // does a check for if it's in water
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Water"))
+        {
+            _inWater = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Water"))
+        {
+            _inWater = false;
+        }
+    }
 }

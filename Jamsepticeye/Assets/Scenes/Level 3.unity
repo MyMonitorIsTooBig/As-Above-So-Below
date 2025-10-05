@@ -351,7 +351,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -37935,6 +37935,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 85016081}
     m_Modifications:
+    - target: {fileID: 640056751303009279, guid: e8ab8a6a9d4dbee41b60026fbcca30f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 153965733}
+    - target: {fileID: 640056751303009279, guid: e8ab8a6a9d4dbee41b60026fbcca30f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DeleteAllCorpses
+      objectReference: {fileID: 0}
+    - target: {fileID: 640056751303009279, guid: e8ab8a6a9d4dbee41b60026fbcca30f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CorpseManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 640056751303009279, guid: e8ab8a6a9d4dbee41b60026fbcca30f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1595452629063223724, guid: e8ab8a6a9d4dbee41b60026fbcca30f0, type: 3}
       propertyPath: spline
       value: 
