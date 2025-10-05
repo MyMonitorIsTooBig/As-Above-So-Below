@@ -61,3 +61,4 @@ MonoBehaviour:
     _hasCard: 1
     _cardUI: {fileID: 0}
   _selectedCard: 0
+  _hasBaseCard: 0
