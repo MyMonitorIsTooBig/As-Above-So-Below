@@ -107,8 +107,8 @@ public class PlayerMovement : MonoBehaviour
             if (slopeHit.collider != null)
             {
                 float angle = Mathf.Atan2(slopeHit.normal.x, slopeHit.normal.y);
-                
-                if(angle != 0)
+
+                if (angle != 0 && slopeHit.collider.CompareTag("Slope"))
                 {
                     angle = Mathf.Deg2Rad * angle;
                     slope = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
@@ -118,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            _rb.AddForce(dir2 * slope * _stats.speed.value, ForceMode2D.Impulse);
+            _rb.AddForce(dir2 * _stats.speed.value, ForceMode2D.Impulse);
 
             Vector3 cam = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
