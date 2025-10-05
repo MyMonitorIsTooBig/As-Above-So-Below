@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     System.Action<InputAction.CallbackContext> _moveCallback;
 
     private Rigidbody2D _rb;
-
+    [SerializeField] float _defaultMass;
     PlayerStats _stats;
 
     Vector3 _vel = Vector3.zero;
@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
 
             dir2 = Vector2.Lerp(dir2, moveValue, _smoothing);
 
-            if (!_grounded) dir2 = dir2 * 0.85f;
+            //if (!_grounded) dir2 = dir2 * 0.85f;
 
 
             RaycastHit2D slopeHit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.5f), 0, Vector2.down, 1, _groundLayer);
@@ -145,9 +145,10 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.99f, 0.5f), 0, Vector2.down, 1, _groundLayer);
 
 
-        if (_collider.IsTouchingLayers(_groundLayer) && hit.collider != null && _grounded)
+        if (_collider.IsTouchingLayers(_groundLayer) && hit.collider != null)
         {
             _rb.AddForce(transform.up * _stats.jumpHeight.value, ForceMode2D.Impulse);
+            _rb.mass = _defaultMass * 2;
             _grounded = false;
         }
     }
@@ -178,6 +179,7 @@ public class PlayerMovement : MonoBehaviour
             if (Mathf.Abs(contact.point.y - ownBottomY) < tolerance)
             {
                 _grounded = true;
+                _rb.mass = _defaultMass;
                 _groundColliders.Add(collision.collider);
                 break; 
             }
