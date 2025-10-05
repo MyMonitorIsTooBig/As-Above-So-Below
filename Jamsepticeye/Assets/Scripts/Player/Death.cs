@@ -5,6 +5,7 @@ using UnityEngine;
 public class Death : MonoBehaviour
 {
     [SerializeField] Rigidbody2D _rb;
+    [SerializeField] Collider2D _collider;
 
     [SerializeField] float _health = 3;
     [SerializeField] float _timeUntilDamage = 1.0f;
@@ -48,6 +49,8 @@ public class Death : MonoBehaviour
                 _projInvincible = true;
                 break;
         }
+
+        _collider.enabled = true;
     }
 
     private void Update()
@@ -106,10 +109,20 @@ public class Death : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("In Water");
         // does a check for if it's in water and makes it float up
         if(collision.gameObject.layer == 4 && _floating)
         {
             _inWater = true;
+            _rb.gravityScale = -1;
+        }
+    }
+
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 4 && _floating && _rb.gravityScale != -1)
+        {
             _rb.gravityScale = -1;
         }
     }
