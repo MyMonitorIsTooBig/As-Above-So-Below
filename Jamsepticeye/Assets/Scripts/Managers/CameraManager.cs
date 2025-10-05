@@ -18,6 +18,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] Vector2 xClamps = Vector2.zero;
     [SerializeField] Vector2 yClamps = Vector2.zero;
 
+    [SerializeField] Vector2 _offset = Vector2.zero;
 
     [SerializeField] Vector3 topCorner;
     [SerializeField] Vector3 botCorner;
@@ -57,7 +58,7 @@ public class CameraManager : MonoBehaviour
             
             Vector3 smoothPos = Vector3.SmoothDamp(transform.position, _player.position, ref _vel, smoothing);
 
-            transform.position = new Vector3(Mathf.Clamp(smoothPos.x, xClamps.x, xClamps.y), Mathf.Clamp(smoothPos.y, yClamps.x, yClamps.y), -10);
+            transform.position = new Vector3(Mathf.Clamp(smoothPos.x, xClamps.x, xClamps.y), Mathf.Clamp(smoothPos.y, yClamps.x, yClamps.y), -10) + (Vector3)_offset;
 
             
 
