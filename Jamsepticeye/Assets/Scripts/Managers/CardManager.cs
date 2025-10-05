@@ -39,6 +39,14 @@ public class CardManager : MonoBehaviour
     {
         if (_instance == null) _instance = this;
         else Destroy(gameObject);
+
+        foreach(Cards card in cards)
+        {
+            if (card._hasCard)
+            {
+                AddCardToSpline(card._cardUI);
+            }
+        }
     }
     
     // Card Logic things 
@@ -54,6 +62,9 @@ public class CardManager : MonoBehaviour
 
     public void CollectCard(Upgrade card)
     {
+
+        if (!_hasBaseCard) _hasBaseCard = true;
+
         foreach (Cards _card in cards)
         {
             if (_card._name == card)
@@ -69,7 +80,7 @@ public class CardManager : MonoBehaviour
 
     public void SelectCard(int index)
     {
-        if (!_hasBaseCard) _hasBaseCard = true;
+        
 
         if (cards[index]._hasCard)
         {

@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e95fcaa69c8e1498d8cb5a548048ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defaultMass: 2.5
   _smoothing: 0.75
   _canMove: 1
   _grounded: 0

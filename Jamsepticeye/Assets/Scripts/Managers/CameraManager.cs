@@ -56,9 +56,9 @@ public class CameraManager : MonoBehaviour
         if (_followPlayer)
         {
             
-            Vector3 smoothPos = Vector3.SmoothDamp(transform.position, _player.position, ref _vel, smoothing);
+            Vector3 smoothPos = Vector3.SmoothDamp(transform.position, _player.position + (Vector3)_offset, ref _vel, smoothing);
 
-            transform.position = new Vector3(Mathf.Clamp(smoothPos.x, xClamps.x, xClamps.y), Mathf.Clamp(smoothPos.y, yClamps.x, yClamps.y), -10) + (Vector3)_offset;
+            transform.position = new Vector3(Mathf.Clamp(smoothPos.x, xClamps.x, xClamps.y), Mathf.Clamp(smoothPos.y, yClamps.x, yClamps.y), -10);
 
             
 

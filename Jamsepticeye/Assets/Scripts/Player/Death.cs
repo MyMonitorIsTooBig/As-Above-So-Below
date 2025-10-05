@@ -114,6 +114,7 @@ public class Death : MonoBehaviour
         if(collision.gameObject.layer == 4 && _floating)
         {
             _inWater = true;
+            _rb.mass = 30f;
             _rb.gravityScale = -1;
         }
     }

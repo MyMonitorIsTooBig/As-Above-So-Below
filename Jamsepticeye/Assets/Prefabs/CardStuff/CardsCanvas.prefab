@@ -50,6 +50,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 8040054865775703478}
     m_Modifications:
     - target: {fileID: 1381424408472596189, guid: 683014aba0473404291cb27a6ae9758d, type: 3}
+      propertyPath: minSpread
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1381424408472596189, guid: 683014aba0473404291cb27a6ae9758d, type: 3}
+      propertyPath: selectedScale
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1381424408472596189, guid: 683014aba0473404291cb27a6ae9758d, type: 3}
+      propertyPath: unselectedScale
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1381424408472596189, guid: 683014aba0473404291cb27a6ae9758d, type: 3}
       propertyPath: cards.Array.data[0]._cardUI
       value: 
       objectReference: {fileID: 6453403873740079405}
@@ -69,6 +81,26 @@ PrefabInstance:
       propertyPath: cards.Array.data[4]._cardUI
       value: 
       objectReference: {fileID: 2238188765454461736}
+    - target: {fileID: 1381424408472596189, guid: 683014aba0473404291cb27a6ae9758d, type: 3}
+      propertyPath: cards.Array.data[0]._hasCard
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1381424408472596189, guid: 683014aba0473404291cb27a6ae9758d, type: 3}
+      propertyPath: cards.Array.data[1]._hasCard
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1381424408472596189, guid: 683014aba0473404291cb27a6ae9758d, type: 3}
+      propertyPath: cards.Array.data[2]._hasCard
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1381424408472596189, guid: 683014aba0473404291cb27a6ae9758d, type: 3}
+      propertyPath: cards.Array.data[3]._hasCard
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1381424408472596189, guid: 683014aba0473404291cb27a6ae9758d, type: 3}
+      propertyPath: cards.Array.data[4]._hasCard
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2269656143356109762, guid: 683014aba0473404291cb27a6ae9758d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -965.81824
