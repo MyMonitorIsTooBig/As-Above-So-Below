@@ -158,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (CardManager.Instance.HasBaseCard)
         {
-            _rewind.OnRewindPressed();
+            _rewind.Die();
         }
     }
 

@@ -367,5 +367,31 @@ private void OnTriggerExit2D(Collider2D collision)
         _inWater = false;
     }
 }
+// Call this from hazards, enemies, etc.
+public void Die()
+{
+    if (!isRewinding)
+    {
+        Debug.Log("Player died, initiating rewind...");
+
+        // spawn corpse
+        Death corpse = Instantiate(_corpse, transform.position, Quaternion.identity).GetComponent<Death>();
+        if (CardManager.Instance != null)
+        {
+            corpse.CurrentUpgrade = CardManager.Instance.SelectedCard;
+        }
+
+        // force rewind to safe zone if possible
+        StartCoroutine(Rewind());
+
+        // clear history on death
+        positionHistory.Clear();
+
+        // reset survival tracker
+        hasSurvivedRewind = false;
+        lastRewindTime = Time.time;
+    }
+}
+
 // only god knows at this point how this script works, once so did I - Manvir  
 }
