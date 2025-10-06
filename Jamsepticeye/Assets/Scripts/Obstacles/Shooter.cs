@@ -31,6 +31,8 @@ public class Shooter : MonoBehaviour
     {
         GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity);
         bullet.GetComponent<Rigidbody2D>().linearVelocity = _shootDirection * _bulletSpeed;
+        bullet.transform.Rotate(0, 0, _shootDirection.x * -90);
+        if (_shootDirection.y < 0) bullet.GetComponent<SpriteRenderer>().flipX = true;
     }
 }
 

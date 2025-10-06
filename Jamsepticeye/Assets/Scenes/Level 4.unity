@@ -8489,7 +8489,7 @@ PrefabInstance:
       objectReference: {fileID: 153965733}
     - target: {fileID: 640056751303009279, guid: e8ab8a6a9d4dbee41b60026fbcca30f0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DeleteAllCorpses
+      value: resetLevel
       objectReference: {fileID: 0}
     - target: {fileID: 640056751303009279, guid: e8ab8a6a9d4dbee41b60026fbcca30f0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

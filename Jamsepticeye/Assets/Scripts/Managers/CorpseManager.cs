@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CorpseManager : MonoBehaviour
 {
@@ -44,5 +45,10 @@ public class CorpseManager : MonoBehaviour
     public void RemoveFromlist(Death corpse)
     {
         if(_corpses.Contains(corpse)) _corpses.Remove(corpse);
+    }
+
+    public void resetLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
