@@ -1300,6 +1300,10 @@ PrefabInstance:
       propertyPath: unsafeSafeZoneLayers.m_Bits
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 2662253194285764278, guid: 71634834f1bcf2d4b9b35f9b4c57f8ee, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4285268693872184751, guid: 71634834f1bcf2d4b9b35f9b4c57f8ee, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.09

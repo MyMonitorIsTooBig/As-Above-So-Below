@@ -8,6 +8,7 @@ public class PlayerAnimManager : MonoBehaviour
     [SerializeField] Animator _playerAnim;
     [SerializeField] PlayerMovement _player;
     InputAction _walkInput;
+    InputAction _jumpInput;
 
     [SerializeField] List<AudioClip> _stepSounds;
     [SerializeField] AudioSource _stepSource;
@@ -15,68 +16,55 @@ public class PlayerAnimManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _walkInput = InputSystem.actions.FindAction("Move");
-        _walkInput.started += animChange;
-        _walkInput.performed += animChange;
-        _walkInput.canceled += animChange;
         _player = GetComponent<PlayerMovement>();
+
+        _jumpInput = InputSystem.actions.FindAction("Jump");
+        _jumpInput.started += animChange;
+        _jumpInput.performed += animChange;
+        _jumpInput.canceled += animChange;
     }
 
     private void OnDisable()
     {
-        _walkInput.started -= animChange;
-        _walkInput.performed -= animChange;
-        _walkInput.canceled -= animChange;
+        _jumpInput.started -= animChange;
+        _jumpInput.performed -= animChange;
+        _jumpInput.canceled -= animChange;
     }
 
     void animChange(InputAction.CallbackContext context)
     {
-        
+        if (context.performed)
+        {
+            _playerAnim.SetTrigger("IsJumping");
+        }
     }
 
     private void Update()
     {
         if (_player.CanMove)
         {
-            Vector2 _move = _walkInput.ReadValue<Vector2>();
 
-            switch (_move)
+
+            if (_player.Grounded)
             {
-                case Vector2 m when m.Equals(Vector2.down):
-                    animBool(false, false, false, false, true);
-                    break;
-
-                case Vector2 m when m.Equals(Vector2.up):
-                    animBool(true, false, false, false, false);
-                    break;
-
-                case Vector2 m when m.Equals(Vector2.left):
-                    animBool(false, false, true, false, false);
-                    break;
-
-                case Vector2 m when m.Equals(Vector2.right):
-                    animBool(false, true, false, false, false);
-                    break;
-
-                case Vector2 m when m.Equals(Vector2.zero):
-                    animBool(false, false, false, true, false);
-                    break;
+                _playerAnim.SetBool("IsGrounded", true);
             }
-        }
+            else
+            {
+                _playerAnim.SetBool("IsGrounded", false);
+            }
 
-        else
-        {
-            animBool(false, false, false, false, false);
-        }
-    }
+            if (_player.Moving)
+            {
+                _playerAnim.SetBool("IsMoving", true);
+            }
+            else
+            {
+                _playerAnim.SetBool("IsMoving", false);
+            }
 
-    void animBool(bool backwards, bool right, bool left, bool idle, bool forwards)
-    {
-        _playerAnim.SetBool("backwards", backwards);
-        _playerAnim.SetBool("right", right);
-        _playerAnim.SetBool("left", left);
-        _playerAnim.SetBool("idle", idle);
-        _playerAnim.SetBool("forward", forwards);
+            
+        }
     }
 
     public void playRandomStepSound()

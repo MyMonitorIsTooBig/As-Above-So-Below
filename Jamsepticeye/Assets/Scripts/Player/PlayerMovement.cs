@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     System.Action<InputAction.CallbackContext> _moveCallback;
 
     private Rigidbody2D _rb;
+    private SpriteRenderer _spriteRenderer;
     [SerializeField] float _defaultMass;
     PlayerStats _stats;
 
@@ -30,6 +31,9 @@ public class PlayerMovement : MonoBehaviour
     public bool CanMove {  get { return _canMove; } set { _canMove = value; } }
 
 
+    [SerializeField] bool _isMove = false;
+    public bool Moving { get { return _isMove; } }
+
     Vector2 direction;
 
     public Vector2 Direction { get { return direction; } }
@@ -37,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     bool _grounded = false;
+    public bool Grounded { get { return _grounded; } }
 
     bool _inWater = false;
 
@@ -68,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
 
         _rb = GetComponent<Rigidbody2D>();
         _stats = GetComponent<PlayerStats>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
 
         _jumpCallback = ctx => Jump();
         _dieCallback = ctx => Die();
@@ -95,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
             var moveValue = _moveAction.ReadValue<Vector2>();
             moveValue.y = 0;
 
+            _spriteRenderer.flipX = moveValue.x < 0f;
 
             dir2 = Vector2.Lerp(dir2, moveValue, _smoothing);
 
@@ -117,6 +124,15 @@ public class PlayerMovement : MonoBehaviour
                     _rb.AddForce(dir2 * slope * _stats.speed.value, ForceMode2D.Impulse);
 
                 }
+            }
+
+            if (moveValue == Vector2.zero)
+            {
+                _isMove = false;
+            }
+            else
+            {
+                _isMove = true;
             }
 
             _rb.AddForce(dir2 * _stats.speed.value, ForceMode2D.Impulse);

@@ -67,8 +67,8 @@ void Awake()
     col = GetComponent<Collider2D>();
 
     // Temp InputAction for "Rewind" (press E by default)
-    rewindAction = new InputAction("Rewind", InputActionType.Button, "<Keyboard>/e");
-    rewindAction.performed += ctx => OnRewindPressed();
+    //rewindAction = new InputAction("Rewind", InputActionType.Button, "<Keyboard>/e");
+    //rewindAction.performed += ctx => OnRewindPressed();
 
     spriteRenderer = GetComponent<SpriteRenderer>();
     spriteRenderer.sprite = normalSprite;
@@ -88,8 +88,8 @@ void Awake()
     }
 }
 
-void OnEnable() { rewindAction.Enable(); }
-void OnDisable() { rewindAction.Disable(); }
+//void OnEnable() { rewindAction.Enable(); }
+//void OnDisable() { rewindAction.Disable(); }
 
 void Update()
 {
