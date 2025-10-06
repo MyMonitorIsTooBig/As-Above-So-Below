@@ -177,6 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 998186284258769912}
   _collider: {fileID: 6855075870532586381}
+  _spriteRenderer: {fileID: 5707051901844526013}
   _health: 3
   _timeUntilDamage: 1
   _stepDamage: 1

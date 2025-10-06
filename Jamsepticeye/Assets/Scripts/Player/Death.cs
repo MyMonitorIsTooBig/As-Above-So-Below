@@ -6,8 +6,11 @@ public class Death : MonoBehaviour
 {
     [SerializeField] Rigidbody2D _rb;
     [SerializeField] Collider2D _collider;
+    [SerializeField] SpriteRenderer _spriteRenderer; // NEW: assign this in Inspector
 
     [SerializeField] float _health = 3;
+    private float _maxHealth; // NEW: store initial health
+
     [SerializeField] float _timeUntilDamage = 1.0f;
     float _currentTime = 0.0f;
 
@@ -25,10 +28,11 @@ public class Death : MonoBehaviour
     [SerializeField] Upgrade _currentUpgrade;
     public Upgrade CurrentUpgrade { get { return _currentUpgrade; } set { _currentUpgrade = value; } }
 
-    // initializes corpse
     private void Start()
     {
         CorpseManager.Instance.AddToList(this);
+
+        _maxHealth = _health; // store starting health
 
         switch (_currentUpgrade)
         {
@@ -43,6 +47,7 @@ public class Death : MonoBehaviour
 
             case Upgrade.LongLasting:
                 _health = _health * _lastingMultipler;
+                _maxHealth = _health; // update max health if modified
                 break;
 
             case Upgrade.LeadLined:
@@ -51,13 +56,14 @@ public class Death : MonoBehaviour
         }
 
         _collider.enabled = true;
+        UpdateColor(); // set correct color at start
     }
 
     private void Update()
     {
         if (_stoodOn)
         {
-            if(_currentTime < _timeUntilDamage)
+            if (_currentTime < _timeUntilDamage)
             {
                 _currentTime += Time.deltaTime;
             }
@@ -69,56 +75,44 @@ public class Death : MonoBehaviour
         }
     }
 
-
-
-    // checks if colliding with player and if player's bottom is touching this corpse
     private void OnCollisionEnter2D(Collision2D collision)
     {
         switch (collision.collider.tag)
         {
-            // collides with player's feet it loses some health and does the destroy check
             case "Player":
                 foreach (ContactPoint2D contact in collision.contacts)
                 {
                     if (contact.normal.y < 0)
                     {
                         _stoodOn = true;
-                        //Damaged(_stepDamage, _invincible);
                         return;
                     }
                 }
                 break;
 
-            // collides with projectile and loses some health and does the projectile destroy check
             case "Projectile":
                 Damaged(_projectileDamage, _projInvincible);
                 break;
-
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        switch (collision.collider.tag)
+        if (collision.collider.tag == "Player")
         {
-            case "Player":
-                _stoodOn = false;
-                break;
+            _stoodOn = false;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("In Water");
-        // does a check for if it's in water and makes it float up
-        if(collision.gameObject.layer == 4 && _floating)
+        if (collision.gameObject.layer == 4 && _floating)
         {
             _inWater = true;
             _rb.mass = 30f;
             _rb.gravityScale = -1;
         }
     }
-
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -130,7 +124,6 @@ public class Death : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // does a check for if it's no longer in water and makes it float back down
         if (collision.gameObject.layer == 4 && _floating)
         {
             _inWater = false;
@@ -138,9 +131,6 @@ public class Death : MonoBehaviour
         }
     }
 
-
-
-    // properly disposes of corpse
     public void DeleteCorpse()
     {
         CorpseManager.Instance.RemoveFromlist(this);
@@ -151,11 +141,20 @@ public class Death : MonoBehaviour
     {
         if (!damageCheck)
         {
-            _health = _health - damage;
+            _health -= damage;
+            UpdateColor(); // update color when damaged
         }
+
         if (_health <= 0)
             DeleteCorpse();
-        
+    }
+
+    private void UpdateColor()
+    {
+        if (_spriteRenderer == null) return;
+
+        float t = Mathf.Clamp01(_health / _maxHealth);
+        _spriteRenderer.color = Color.Lerp(Color.black, Color.white, t);
     }
 }
 
